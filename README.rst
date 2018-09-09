@@ -3,7 +3,18 @@ AxesPlot
 
 AxesPlot extends the functionality of Matplotlib's `imshow()` function by
 appending two plots to the image, at the top or bottom, and on the left or
-right.
+right. The additional plots contain the output of operations that are performed
+along the two axes. For example, the screenshot below shows an AxesPlot with
+the mean of the image computed along the vertical axis, shown at the top, and
+the sum of the image computed along the horizontal axis, shown on the right.
+
+.. class:: no-web
+
+    .. image:: https://github.com/jayanthc/axesplot/blob/master/examples/example.png
+        :alt: AxesPlot screenshot
+        :width: 100%
+        :align: center
+
 
 Usage
 -----
