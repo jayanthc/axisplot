@@ -10,6 +10,7 @@ Usage
 
 .. code:: python
 
+    import numpy as np
     import axesplot
 
     # generate some data
@@ -17,7 +18,9 @@ Usage
     dim_y = 256
     x = np.linspace(0, 2 * np.pi, dim_x)
     X = np.random.normal(size=(dim_y, dim_x)) + np.sin(x)
-    AxesPlot(X, np.mean, np.sum, cmap='plasma')
+    # create axesplot with mean along the y-axis at the top, and sum along the
+    # x-axis on the right
+    axesplot.AxesPlot(X, np.mean, np.sum, cmap='plasma')
 
 Installation
 ------------
