@@ -12,7 +12,7 @@ the sum of the image computed along the horizontal axis, shown on the right.
 
     .. image:: https://github.com/jayanthc/axesplot/blob/master/examples/example.png
         :alt: AxesPlot screenshot
-        :width: 100%
+        :width: 60%
         :align: center
 
 
