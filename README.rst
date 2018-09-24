@@ -51,7 +51,7 @@ Development mode:
     cd <axisplot-directory>
     pip install -e .
 
-Uniit Testinig
+Unit Testing
 ------------
 
 ::
