@@ -41,7 +41,7 @@ Usage
     axisplot.plot(X)
     # another example, using an operation (percentile) that takes arguments
     # axisplot = ap.AxisPlot(optop=np.percentile, topargs={'a': X, 'q': 95})
-    # _, ax_top, _, _ = axisplot.plot(X)
+    # axisplot.plot(X)
     plt.show()
 
 Installation
