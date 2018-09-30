@@ -38,7 +38,8 @@ Usage
     # create axisplot with mean along the y-axis at the top, and sum along the
     # x-axis on the right
     axisplot = ap.AxisPlot(optop=np.mean, opright=np.sum, cmap='plasma')
-    axisplot.plot(X)
+    ax, ax_top, ax_right = axisplot.plot(X)
+    ax_top.set_title('Example')
     # another example, using an operation (percentile) that takes arguments
     # axisplot = ap.AxisPlot(optop=np.percentile, topargs={'a': X, 'q': 95})
     # axisplot.plot(X)
