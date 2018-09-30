@@ -82,4 +82,3 @@ class TestAxisPlot(unittest.TestCase):
         _, ax_top, _, _ = axisplot.plot(X)
         ax_top.set_title('test_opargs')
         plt.show()
-
