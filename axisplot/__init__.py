@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+AxisPlot extends the functionality of Matplotlib's imshow() function.
+
+AxisPlot extends the functionality of Matplotlib's imshow() function by
+appending up to four plots to the image, at the top, at the bottom, on the
+left, and/or on the right. The additional plots contain the output of
+operations that are performed along the two axes. Plots at the top and bottom
+contain the output of operations performed along the vertical axis, while plots
+on the left and right contain the output of operations that are performed along
+the horizontal axis.
+
+Classes:
+    AxisPlot: The main, and only, class in this module.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mp
@@ -5,10 +20,65 @@ import mpl_toolkits.axes_grid1 as mag1
 
 
 class AxisPlot:
+    """
+    AxisPlot extends the functionality of Matplotlib's imshow() function.
+
+    AxisPlot extends the functionality of Matplotlib's imshow() function by
+    appending up to four plots to the image, at the top, at the bottom, on the
+    left, and/or on the right. The additional plots contain the output of
+    operations that are performed along the two axes. Plots at the top and
+    bottom contain the output of operations performed along the vertical axis,
+    while plots on the left and right contain the output of operations that are
+    performed along the horizontal axis.
+
+    Attributes:
+        optop: Operation corresponding to the plot at the top of the image.
+        topargs: Arguments to the top operation function.
+        opbottom: Operation corresponding to the plot at the bottom.
+        bottomargs: Arguments to the bottom operation function.
+        opleft: Operation corresponding to the plot on the left.
+        leftargs: Arguments to the left operation function.
+        opright: Operation corresponding to the plot on the right.
+        rightargs: Arguments to the right operation function.
+        figsize: Size of the figure as (width, height) in inches.
+        padtop: Padding between the top plot and the image.
+        padbottom: Padding between the bottom plot and the image.
+        padleft: Padding between the left plot and the image.
+        padright: Padding between the right plot and the image.
+        imshowkwargs: Keyword arguments to Matplotlib's imshow() function.
+        heights: Heights of the appended plots.
+
+    """
+
     def __init__(self, optop=None, topargs=None, opbottom=None,
                  bottomargs=None, opleft=None, leftargs=None, opright=None,
                  rightargs=None, figsize=None, padtop=0.0, padbottom=0.0,
                  padleft=0.0, padright=0.0, **imshowkwargs):
+        """
+        Initialise AxisPlot object.
+
+        AxisPlot is initialised with the operations to perform along the two
+        axes of the two-dimensional array that is to be plotted.
+
+        Keyword arguments:
+            optop: Operation corresponding to the plot at the top of the image.
+            topargs: Arguments to the top operation function.
+            opbottom: Operation corresponding to the plot at the bottom.
+            bottomargs: Arguments to the bottom operation function.
+            opleft: Operation corresponding to the plot on the left.
+            leftargs: Arguments to the left operation function.
+            opright: Operation corresponding to the plot on the right.
+            rightargs: Arguments to the right operation function.
+            figsize: Size of the figure as (width, height) in inches.
+            padtop: Padding between the top plot and the image.
+            padbottom: Padding between the bottom plot and the image.
+            padleft: Padding between the left plot and the image.
+            padright: Padding between the right plot and the image.
+            imshowkwargs: Keyword arguments to Matplotlib's imshow() function.
+
+        Returns:
+            None.
+        """
         self.optop = optop
         # if operations require arguments, store them
         if topargs is not None:
@@ -40,16 +110,29 @@ class AxisPlot:
         if figsize is None:
             figsize = mp.rcParams['figure.figsize']
         # figsize is (width, height)
-        self.aspect_ratio = figsize[0] / figsize[1]
+        aspect_ratio = figsize[0] / figsize[1]
 
         default_height_frac = 0.2
         # heights is (y, x)
         self.heights = [figsize[0] * default_height_frac,
-                        figsize[1] * self.aspect_ratio * default_height_frac]
+                        figsize[1] * aspect_ratio * default_height_frac]
 
         return
 
     def plot(self, X):
+        """
+        Plot input based on configuration.
+
+        This function plots the input two-dimensional array using Matplotlib's
+        imshow() function, and optionally appends additional plots based on how
+        the axisplot object was instantiated.
+
+        Arguments:
+            X: Input two-dimensional array.
+
+        Returns:
+            A list of axes objects.
+        """
         fig, ax = plt.subplots(figsize=self.figsize)
         ax.imshow(X, **self.imshowkwargs)
         divider = mag1.make_axes_locatable(ax)
@@ -107,6 +190,7 @@ class AxisPlot:
         return plot_axes
 
     def __sanitise(self, args):
+        """Sanitise arguments to operations."""
         # if 'axis' is specified as an argument, drop it
         if 'axis' in args:
             del args['axis']
