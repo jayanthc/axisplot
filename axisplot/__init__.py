@@ -5,13 +5,31 @@ import mpl_toolkits.axes_grid1 as mag1
 
 
 class AxisPlot:
-    def __init__(self, optop=None, opbottom=None, opleft=None, opright=None,
-                 figsize=None, padtop=0.0, padbottom=0.0, padleft=0.0,
-                 padright=0.0, **imshowkwargs):
+    def __init__(self, optop=None, topargs=None, opbottom=None,
+                 bottomargs=None, opleft=None, leftargs=None, opright=None,
+                 rightargs=None, figsize=None, padtop=0.0, padbottom=0.0,
+                 padleft=0.0, padright=0.0, **imshowkwargs):
         self.optop = optop
+        # if operations require arguments, store them
+        if topargs is not None:
+            self.topargs = self.__sanitise(topargs)
+        else:
+            self.topargs = None
         self.opbottom = opbottom
+        if bottomargs is not None:
+            self.bottomargs = self.__sanitise(bottomargs)
+        else:
+            self.bottomargs = None
         self.opleft = opleft
+        if leftargs is not None:
+            self.leftargs = self.__sanitise(leftargs)
+        else:
+            self.leftargs = None
         self.opright = opright
+        if rightargs is not None:
+            self.rightargs = self.__sanitise(rightargs)
+        else:
+            self.rightargs = None
         self.figsize = figsize
         self.padtop = padtop
         self.padbottom = padbottom
@@ -45,7 +63,10 @@ class AxisPlot:
             ax_top = divider.append_axes('top', self.heights[1],
                                          pad=self.padtop, sharex=ax)
             ax_top.xaxis.set_tick_params(labelbottom=False)
-            ax_top.plot(x, self.optop(X, axis=0))
+            if self.topargs is None:
+                ax_top.plot(x, self.optop(X, axis=0))
+            else:
+                ax_top.plot(x, self.optop(**self.topargs, axis=0))
             ax_top.set_xlim(x.min(), x.max())
             plot_axes.append(ax_top)
         if self.opbottom:
@@ -54,7 +75,10 @@ class AxisPlot:
             # turn bottom labels off for the image
             ax.xaxis.set_tick_params(labelbottom=False)
             ax_bottom.xaxis.set_tick_params(labelbottom=True)
-            ax_bottom.plot(x, self.opbottom(X, axis=0))
+            if self.bottomargs is None:
+                ax_bottom.plot(x, self.opbottom(X, axis=0))
+            else:
+                ax_bottom.plot(x, self.opbottom(**self.bottomargs, axis=0))
             ax_bottom.set_xlim(x.min(), x.max())
             plot_axes.append(ax_bottom)
         if self.opleft:
@@ -63,15 +87,28 @@ class AxisPlot:
             # turn left labels off for the image
             ax.yaxis.set_tick_params(labelleft=False)
             ax_left.yaxis.set_tick_params(labelleft=True)
-            ax_left.plot(self.opleft(X, axis=1), y)
+            if self.leftargs is None:
+                ax_left.plot(self.opleft(X, axis=1), y)
+            else:
+                ax_left.plot(self.opleft(**self.leftargs, axis=1), y)
             ax_left.set_ylim(y.min(), y.max())
             plot_axes.append(ax_left)
         if self.opright:
             ax_right = divider.append_axes('right', self.heights[0],
                                            pad=self.padright, sharey=ax)
             ax_right.yaxis.set_tick_params(labelleft=False)
-            ax_right.plot(self.opright(X, axis=1), y)
+            if self.rightargs is None:
+                ax_right.plot(self.opright(X, axis=1), y)
+            else:
+                ax_right.plot(self.opright(**self.rightargs, axis=1), y)
             ax_right.set_ylim(y.min(), y.max())
             plot_axes.append(ax_right)
 
         return plot_axes
+
+    def __sanitise(self, args):
+        # if 'axis' is specified as an argument, drop it
+        if 'axis' in args:
+            del args['axis']
+
+        return args

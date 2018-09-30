@@ -66,3 +66,20 @@ class TestAxisPlot(unittest.TestCase):
         ax_right.set_xticklabels([])
         ax_top.set_title('test_axislabels')
         plt.show()
+
+    def test_opargs(self):
+        # generate some data
+        dim_x = 512
+        dim_y = 256
+        x = np.linspace(0, 2 * np.pi, dim_x)
+        X = np.random.normal(size=(dim_y, dim_x)) + np.sin(x)
+        # create axisplot with operations that take arguments
+        axisplot = ap.AxisPlot(optop=np.percentile,
+                               topargs={'a': X, 'q': 95, 'axis': 50},
+                               opright=np.sum,
+                               opbottom=np.percentile,
+                               bottomargs={'a': X, 'q': 5})
+        _, ax_top, _, _ = axisplot.plot(X)
+        ax_top.set_title('test_opargs')
+        plt.show()
+
