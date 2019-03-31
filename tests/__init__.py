@@ -77,3 +77,17 @@ class TestAxisPlot(unittest.TestCase):
         _, ax_top, _, _ = axisplot.plot(self.data)
         ax_top.set_title('test_4_opargs')
         plt.show()
+
+    def test_5_customop(self):
+        # define a custom operation
+        def custom_op(image, axis):
+            return np.sum(image, axis=axis) / np.sqrt(image.shape[axis])
+
+        # create axisplot with the custom operation along the y-axis at the
+        # bottom
+        axisplot = ap.AxisPlot(opbottom=custom_op)
+        ax, ax_bottom = axisplot.plot(self.data)
+        ax.set_xlabel('x label')
+        ax.set_ylabel('y label')
+        ax.set_title('test_5_customop')
+        plt.show()
